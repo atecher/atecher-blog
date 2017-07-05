@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atecher.blog.mapper.auth.AccountMapper" >
+  
+<resultMap id="authUserMap"  type="com.atecher.blog.model.AuthUser" >
+	<id column="user_id" property="id"/>
+	<result column="user_account" property="account"/>
+	<result column="nick_name" property="name"/>
+	<result column="user_password" property="password"/>
+	<result column="avatar" property="avatar"/>
+	<collection property="roles" column="user_id" ofType="string" select="getRolesByUserId" />
+</resultMap>
+<resultMap id="menuMap" type="com.atecher.blog.model.Menu" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="parentcode" property="parentCode" jdbcType="VARCHAR" />
+    <result column="fullcode" property="fullCode" jdbcType="VARCHAR" />
+    <result column="nodeorder" property="order" jdbcType="INTEGER" />
+    <result column="isleaf" property="leaf" jdbcType="BOOLEAN" />
+    <result column="isvisible" property="visible" jdbcType="BOOLEAN" />
+    <collection property="children" column="{id=id,userId=user_id,parentCode=code}"  select="selectAuthMenuByParentCode"/>
+ </resultMap>
+
+<select id="getRolesByUserId" parameterType="long" resultType="string">
+	select role_code from sys_role r where exists (select s.user_id from sys_user_role s where s.user_id=#{value} and s.role_id=r.role_id)
+</select>
+
+<select id="getAuthUserByAccount" parameterType="string" resultMap="authUserMap">
+	SELECT u.user_id, a.user_account, u.nick_name, a.user_password,u.avatar FROM
+	sys_user u left join sys_user_account a on u.user_id=a.user_id where a.user_account=#{value}  limit 1
+</select>
+
+
+  <select id="selectAuthMenuByParentCode" resultMap="menuMap" parameterType="java.util.HashMap">
+   select 
+    id, code, name, url, level, parentcode, fullcode, nodeorder, isleaf, icon,
+    isvisible,#{userId} user_id
+    from sys_menu m
+    where parentcode = #{parentCode} and exists(select rm.menucode from sys_user_role ur inner join sys_role_menu rm on ur.role_id=rm.roleid where ur.user_id=#{userId} AND rm.menucode= m.code)
+  </select>
+</mapper>

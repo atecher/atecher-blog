@@ -1,0 +1,47 @@
+.bdsharebuttonbox{position: fixed;width: 50px;margin-left: -50px;top: 20%;}
+.bds_tsina,
+.bds_weixin,
+.bds_tqq,
+.bds_more,
+.bds_qzone{
+    width: 30px !important;
+    height: 30px !important;
+    background:  url('images/share.png') no-repeat !important;
+}
+@media (max-width: 1400px) {
+    .bdsharebuttonbox{position: inherit;width:100%;margin-left:10px;}
+}
+.bds_tsina{
+    background:  url('images/share.png') !important;
+    overflow: hidden;
+}
+.bds_tsina:hover{
+    background-position: 0 -31px !important;
+}
+.bds_weixin{
+    background-position: -121px top !important;
+}
+.bds_weixin:hover{
+    background-position: -121px -31px !important;
+}
+
+.bds_tqq{
+    background-position: -31px top !important;
+}
+.bds_tqq:hover{
+    background-position: -31px -31px !important;
+}
+
+
+.bds_qzone{
+    background-position: -61px top !important;
+}
+.bds_qzone:hover{
+    background-position: -61px -31px !important;
+}
+.bds_more{
+    background-position: -151px top !important;
+}
+.bds_more:hover{
+    background-position:-151px -31px !important;
+}

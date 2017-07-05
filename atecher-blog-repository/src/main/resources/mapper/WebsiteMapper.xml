@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atecher.blog.mapper.content.WebsiteMapper">
+	<cache eviction="FIFO" flushInterval="60000" size="1000" />
+	<sql id="queryArticleForPageCon">
+		<if test="category_ids!=null">
+		  and a.category_id in
+		  <foreach collection="category_ids" close=")" open="(" separator="," item="category_id"> #{category_id}</foreach>
+		</if>
+	</sql>
+	<sql id="categoryColumns_full">
+		SELECT
+			 c.category_id,c.parent_id, c.is_display, c.category_name,c.category_path,
+			c.keywords,c.description,c.category_level,c.priority
+	FROM con_category c where c.valid='1'
+	</sql>
+	<sql id="selectArticleColumns">
+	select
+		a.article_id,a.category_id,c.category_name,a.title,
+		a.summary,a.author,a.update_time,a.create_time,a.total_clicks,
+		a.keywords,a.content,a.cover_path,c.category_path
+	from con_article_info a left join con_category c on a.category_id=c.category_id
+	where a.status='2'
+	</sql>
+	<resultMap id="articleMap" type="com.atecher.blog.model.Article" >
+		<id column="article_id" property="article_id"/>
+		<result column="category_id" property="category_id"/>
+		<result column="category_name" property="category_name"/>
+		<result column="title" property="title"/>
+		<result column="summary" property="summary"/>
+		<result column="author" property="author"/>
+		<result column="create_time" property="create_time"/>
+		<result column="update_time" property="update_time"/>
+		<result column="total_clicks" property="total_clicks"/>
+		<result column="keywords" property="keywords"/>
+		<result column="content" property="content"/>
+		<result column="cover_path" property="cover_path"/>
+		<result column="category_path" property="category_path"/>
+		<collection property="tags" column="article_id" ofType="com.atecher.blog.model.Tag" select="getTagsByArticleId" />
+	</resultMap>
+
+	<update id="articleClickCount" parameterType="long">
+		update con_article_info set total_clicks=total_clicks+1 where article_id=#{value}
+	</update>
+	
+	<select id="getTagsByArticleId" parameterType="long" resultType="com.atecher.blog.model.Tag">
+		select t.id,t.tag,t.code,t.counts from con_tag t where exists(select 1 from con_article_tag where article_id=#{value} and tag_id=t.id)
+	</select>
+	
+	<select id="checkVistorViewArticle" parameterType="map" resultType="int">
+		select count(1) from con_article_view where article_id=#{article_id} and handle=#{handle} and (cookie_code=#{cookie_code} or (ip=#{real_ip} and agent_ip=#{agent_ip})) and handle_time>date_add(now(), interval -1 day)
+	</select>
+	
+	<insert id="addVistorView" parameterType="map">
+		insert into con_article_view(ip,agent_ip,user_id,article_id,handle,handle_time,cookie_code) values(#{real_ip},#{agent_ip},#{user_id},#{article_id},#{handle},now(),#{cookie_code})
+	</insert>
+
+	<select id="queryArticleForPage" parameterType="map" resultMap="articleMap" >
+		<include refid="selectArticleColumns"/>
+		<include refid="queryArticleForPageCon"/>
+		order by a.create_time desc
+		limit ${start},#{limit}
+	</select>
+	<select id="queryArticleForPageCount" parameterType="map" resultType="int">
+		select count(1) from con_article_info a where a.status='2'
+		<include refid="queryArticleForPageCon"/>
+	</select>
+	
+	<select id="queryArticleByTagForPage" parameterType="map" resultMap="articleMap">
+		<include refid="selectArticleColumns"/> 
+		and exists (select 1 from con_article_tag where article_id=a.article_id and tag_id =#{tag_id})
+		order by a.create_time desc
+		limit ${start},#{limit}
+	</select>
+	<select id="queryArticleByTagForPageCount" parameterType="map" resultType="int">
+		select count(1) from con_article_info a where a.status='2'
+		and exists (select 1 from con_article_tag where article_id=a.article_id and tag_id =#{tag_id})
+	</select>
+	<select id="getArticleById" parameterType="long" resultMap="articleMap" >
+		<include refid="selectArticleColumns"/> and a.article_id=#{value}
+	</select>
+	
+		<select id="getPreNextArticle" parameterType="long" resultType="com.atecher.blog.model.Article">
+(select article_id, title,1 pre,0 next from con_article_info where article_id &lt; #{value}  and status='2' order by article_id desc limit 1)
+union all
+(select article_id, title,0 pre,1 next  from con_article_info where article_id &gt; #{value} and status='2'  order by article_id limit 1)
+	</select>
+</mapper>

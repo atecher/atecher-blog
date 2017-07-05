@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atecher.blog.mapper.content.ArticleMapper" >
+<sql id="selectArticleForPageCondition">
+		<if test="summary!=null">
+			and (a.summary like '%${summary}%' or a.title like '%${summary}%' )
+		</if>
+		<if test="category_ids!=null">
+		  and a.category_id in
+		  <foreach collection="category_ids" close=")" open="(" separator="," item="category_id"> #{category_id}</foreach>
+		</if>
+	</sql>
+	<sql id="selectArticleForPageSort">
+		<choose>
+		<when test="sort!=null and sort!=''">
+			order by a.${sort} ${order}
+		</when>
+		<otherwise>
+			order by a.update_time desc
+		</otherwise>
+		</choose>
+	</sql>
+	<sql id="select_article_base">
+	select
+		a.article_id,a.category_id,c.category_name,a.title,a.summary,
+		a.author,a.original,a.create_time,a.update_time,a.template,
+		a.total_clicks,a.keywords,a.content,c.category_path,a.cover_path,a.status
+	from con_article_info a 
+	left join con_category c on a.category_id=c.category_id
+	where a.status>0
+	</sql>
+	<select id="queryMainArticles" parameterType="map" resultType="map">
+		select a.article_id,a.create_time,a.update_time from con_article_info a  order by a.create_time desc
+		limit ${startRow},#{limit}
+	</select>
+	<select id="selectArticleForPage" parameterType="map" resultType="com.atecher.blog.model.Article">
+		<include refid="select_article_base"/>
+		<include refid="selectArticleForPageCondition"/>
+		<include refid="selectArticleForPageSort"/>
+		limit ${start},#{limit}
+	</select>
+	<select id="selectArticleForPageCount" parameterType="map" resultType="int">
+		select count(1) from con_article_info a where a.status>0
+		<include refid="selectArticleForPageCondition"/>
+	</select>
+	<select id="hotArticle" resultType="com.atecher.blog.model.Article">
+		<include refid="select_article_base"/> order by a.total_clicks desc limit 10
+	</select>
+	<!-- 根据主键获取文章信息 -->
+	<select id="getArticle" parameterType="long" resultType="com.atecher.blog.model.Article">
+		<include refid="select_article_base"/> and a.article_id=#{article_id}
+	</select>
+	
+	<insert id="insertArticle" parameterType="com.atecher.blog.model.Article" useGeneratedKeys="true" keyProperty="article_id" keyColumn="article_id">
+		insert into con_article_info(
+			title,author,create_time,update_time,keywords,summary,content,cover_path,category_id,original,template,status
+		)values(
+			#{title},#{author},now(),now(),#{keywords},#{summary},#{content},#{cover_path},#{category_id},#{original},#{template},#{status}
+		)
+	</insert>
+	<!-- 插入文档里面的图片 -->
+	<insert id="insertPicture" parameterType="map">
+		insert into con_picture(
+			source_id,pic_path,sorted,create_time,type
+		)values(
+			#{source_id},#{pic_path},#{sorted},now(),#{type}
+		)
+	</insert>
+	
+	<delete id="deletePictures" parameterType="map">
+		delete from con_picture where source_id=#{value} and type=#{type}
+	</delete>
+	<!-- 更新文章信息 -->
+	<update id="updateArticle" parameterType="com.atecher.blog.model.Article">
+		update con_article_info set
+			title=#{title},
+			author=#{author},
+			original=#{original},
+			template=#{template},
+			update_time=now(),
+			keywords=#{keywords},
+			summary=#{summary},
+			content=#{content},
+			category_id=#{category_id},
+			cover_path=#{cover_path},
+			status=#{status}
+		where article_id=#{article_id}
+	</update>
+	<update id="deleteArticle" parameterType="long">
+		update con_article_info set status=0 where article_id=#{article_id}
+	</update>
+
+	
+	<!-- tag start-->
+	<insert id="insertArticleTag" parameterType="map">
+		insert into con_article_tag (article_id,tag_id) values(#{article_id},#{tag_id})
+	</insert>
+	
+	<delete id="deleteTagsByArticleId" parameterType="long">
+		delete from con_article_tag where article_id=#{value}
+	</delete>
+	
+	<select id="countArticleTag" parameterType="long" resultType="int">
+		select count(1) from con_article_tag where tag_id=#{value}
+	</select>
+	
+	<!-- tag end -->
+	
+	
+</mapper>

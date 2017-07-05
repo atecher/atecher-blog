@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atecher.blog.mapper.profile.ProfileMapper" >
+<select id="getProfile" resultType="map">
+		 SELECT
+			p.web_manager_title,
+			p.web_app_title,
+			p.web_realm_name,
+			p.is_enabled_reg,
+			p.static_version,
+			p.email_reg_template,
+			p.email_resetpassword_template,
+			p.keywords,
+			p.description
+		FROM sys_profile p
+		limit 1
+	</select>
+	<select id="getConstants" resultType="map">
+		 SELECT p.profile_key,p.profile_value FROM sys_constant p
+	</select>
+	
+	<update id="updateProfile" parameterType="map">
+		update sys_profile set 
+			web_manager_title=#{web_manager_title},
+			web_app_title=#{web_app_title},
+			web_realm_name=#{web_realm_name},
+			is_enabled_reg=#{is_enabled_reg},
+			static_version=#{static_version},
+			email_reg_template=#{email_reg_template},
+			email_resetpassword_template=#{email_resetpassword_template},
+			keywords=#{keywords},
+			description=#{description}
+	</update>
+</mapper>
