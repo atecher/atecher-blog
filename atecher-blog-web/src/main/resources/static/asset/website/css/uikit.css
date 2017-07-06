@@ -1996,7 +1996,7 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
  * 1. Center icon vertically
  */
 .uk-navbar-toggle:after {
-  content: "\f0c9";
+  content: "\f009";
   font-family: FontAwesome;
   /* 1 */
   vertical-align: middle;

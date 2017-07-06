@@ -19,7 +19,7 @@
                 <article class="uk-grid uk-article" >
                     <div class="uk-width-medium-1-1 ">
                         <h1><a>${article.title}</a></h1>
-                        <p class="uk-article-meta"><span><i class="uk-icon-user"></i>${article.author}</span> <span><i class="uk-icon-calendar"></i>${article.create_time?string("yyyy-MM-dd")}</span> <span><i class="uk-icon-eye"></i>${article.total_clicks}次阅读</span></p>
+                        <p class="uk-article-meta"><span>作者：${article.author}</span> <span>发表于：${article.create_time?string("yyyy-MM-dd")}</span> <span>${article.total_clicks}次阅读</span></p>
                         <article class="article-content">
                             ${article.content}
                         </article>

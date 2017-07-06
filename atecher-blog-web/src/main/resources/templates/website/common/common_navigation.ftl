@@ -21,7 +21,7 @@
                 <li class="uk-parent" data-uk-dropdown="{remaintime:100}"><a href="${base}/category/industry">行业</a></li>
                 <li class="" data-uk-dropdown="{remaintime:100}"><a href="${base}/category/find">发现</a></li>
             </ul>
-            <a href="#offcanvas" class="uk-navbar-toggle uk-hidden-large" data-uk-offcanvas=""></a>
+            <a href="#offcanvas" class="uk-navbar-toggle uk-hidden-large" style="color: #555;" data-uk-offcanvas=""></a>
             <div class="uk-navbar-brand uk-navbar-center uk-hidden-large"><img src="${base}/asset/logo/logo.png" width="150" height="40"/></div>
             <div class="uk-navbar-content uk-visible-large uk-float-right" >
                 <form class="uk-search" id="search-3" action="${base}/search" method="get" role="search" >
