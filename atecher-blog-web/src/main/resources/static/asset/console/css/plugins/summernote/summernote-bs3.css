@@ -4336,7 +4336,7 @@ textarea.note-editor .input-group-sm > .input-group-btn > .btn {
 }
 .note-editor .label-danger[href]:hover,
 .note-editor .label-danger[href]:focus {
-  background-color: #c9302c;
+  background-color: #fa7a7a;
 }
 .note-editor .badge {
   display: inline-block;
