@@ -33,15 +33,14 @@
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="profile-element" style="margin-left: 20px;">
-                            <span><img alt="image" class="img-circle" src="${website_current_user.avatar}" width="80" height="80"></span>
+                            <span><img alt="image" class="img-circle" src="${website_current_user.avatar}" width="80" height="80" onerror="this.src='${base}/asset/favicon/favicon_white.png'" ></span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="http://www.zi-han.net/theme/hplus/index.html#">
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold">${website_current_user.name},欢迎您~</strong></span>
                                 </span>
                             </a>
                         </div>
-                        <div class="logo-element">H+
-                        </div>
+                        <div class="logo-element">H+</div>
                     </li>
                         <#list menu as menu>
                     	<li>

@@ -24,7 +24,7 @@
                             <div class="uk-width-medium-4-5 uk-width-small-2-3">
                                 <h2><a href="${base}/article/${article.article_id}">${article.title}</a></h2>
                                 <p class="summary">${article.summary}</p>
-                                <p class="uk-article-meta"><span><a class="at-category" href="${base}/category/${article.category_path}">${article.category_name}</a></span><span><i class="uk-icon-user"></i>${article.author}</span> <span><i class="uk-icon-calendar"></i>${article.create_time?string("yyyy-MM-dd")}</span> <span><i class="uk-icon-eye"></i> ${article.total_clicks}次阅读</span></p>
+                                <p class="uk-article-meta"><span>分类于：<a class="at-category" href="${base}/category/${article.category_path}">${article.category_name}</a></span><span>作者：${article.author}</span> <span>发表于：${article.create_time?string("yyyy-MM-dd")}</span> <span><i class="uk-icon-eye"></i> ${article.total_clicks}次阅读</span></p>
                             </div>
                         </article>
                         <hr class="uk-grid-divider">

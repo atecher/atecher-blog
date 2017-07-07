@@ -1,5 +1,6 @@
 package com.atecher.blog.config;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -35,19 +36,25 @@ public class LuceneConfiguration {
         }
     }
 
-    @Bean("luceneIndexDirectory")
-    public FSDirectory getLuceneIndexDirectory() throws Exception {
-        return new LuceneDirectoryFactoryBean().getFSDirectory();
+    @Bean(name="analyzer")
+    public Analyzer getLuceneAnalyzer(){
+        SmartChineseAnalyzer smartChineseAnalyzer = new SmartChineseAnalyzer(true);
+        return smartChineseAnalyzer;
     }
 
-    @Bean("indexWriter")
-    public IndexWriter getIndexWriter(@Qualifier("luceneIndexDirectory") FSDirectory luceneIndexDirectory){
-        SmartChineseAnalyzer smartChineseAnalyzer=new SmartChineseAnalyzer(true);
-        IndexWriterConfig indexWriterConfig=new IndexWriterConfig(smartChineseAnalyzer);
+
+
+    @Bean(name="indexWriter")
+    public IndexWriter getIndexWriter(@Qualifier("analyzer") Analyzer analyzer) {
         IndexWriter indexWriter=null;
         try {
-            indexWriter=new IndexWriter(luceneIndexDirectory,indexWriterConfig);
+            FSDirectory luceneIndexDirectory = new LuceneDirectoryFactoryBean().getFSDirectory();
+            IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+            indexWriter = new IndexWriter(luceneIndexDirectory, indexWriterConfig);
+            return indexWriter;
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return indexWriter;

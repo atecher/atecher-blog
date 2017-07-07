@@ -29,7 +29,7 @@
                             <div class="uk-width-1-1">
                                 <h2><a href="${base}/article/${article.article_id}">${article.title}</a></h2>
                                 <p class="summary">${article.content}</p>
-                                <p class="uk-article-meta"><span>分类于：<a class="at-category" href="${base}/category/${article.category_path}">${article.category_name}</a></span> <span>作者：${article.author}</span> <span>发表于：<fmt:formatDate value="${article.create_time}" pattern="yyyy.MM.dd"/></span> <span> ${article.total_clicks}次阅读</span></p>
+                                <p class="uk-article-meta"><span>分类于：<a class="at-category" href="${base}/category/${article.category_path}">${article.category_name}</a></span> <span>作者：${article.author}</span> <span>发表于：${article.create_time?string("yyyy-MM-dd")}</span> <span> ${article.total_clicks}次阅读</span></p>
                             </div>
                         </article>
                         <hr class="uk-grid-divider">
@@ -45,7 +45,7 @@
                             <div class="uk-width-medium-3-4 uk-width-small-2-3">
                                 <h2><a href="${base}/article/${article.article_id}">${article.title}</a></h2>
                                 <p class="summary">${article.summary}</p>
-                                <p class="uk-article-meta"><span>分类于：<a class="at-category" href="${base}/category/${article.category_path}">${article.category_name}</a></span> <span>作者：${article.author}</span> <span>发表于：<fmt:formatDate value="${article.create_time}" pattern="yyyy.MM.dd"/></span> <span> ${article.total_clicks}次阅读</span></p>
+                                <p class="uk-article-meta"><span>分类于：<a class="at-category" href="${base}/category/${article.category_path}">${article.category_name}</a></span> <span>作者：${article.author}</span> <span>发表于：${article.create_time?string("yyyy-MM-dd")}</span> <span> ${article.total_clicks}次阅读</span></p>
                             </div>
                         </article>
                         <hr class="uk-grid-divider">

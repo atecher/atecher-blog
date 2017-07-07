@@ -28,7 +28,7 @@
                                 <button type="button" class="btn btn-danger btn-circle" id="deleteBatch"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
                             </div>
                             <table id="dataTableEvents"
-                                   data-height="600" data-mobile-responsive="true"
+                                   data-height="700" data-mobile-responsive="true"
                                    data-url="${base}/manage/article/data" data-cache="false" data-striped="true" data-method="post" data-data-type="json" data-content-type="application/x-www-form-urlencoded"
                                    data-pagination="true" data-page-number="1" data-page-size="20" data-page-list="[10, 20, 50, 100]" data-side-pagination="server" data-query-params="queryParams"
                                    data-toggle="table" data-show-toggle=“true”
