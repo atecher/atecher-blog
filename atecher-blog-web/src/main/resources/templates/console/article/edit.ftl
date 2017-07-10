@@ -20,7 +20,7 @@
 	.hot-tags{margin: 10px 0px;}
 	.hot-tags .hot-tag{padding: 4px 9px 5px 9px;line-height: 20px;white-space: nowrap;font-size: 13px;color: #fff;text-decoration: none;cursor: pointer;background: rgb(217, 83, 79);}
 	.hot-tags .hot-tag:nth-child(5n) {background-color: #4A4A4A;}
-	.hot-tags .hot-tag:nth-child(5n+1) {background-color: #428BCA;}
+	.hot-tags .hot-tag:nth-child(5n+1) {background-color: #485f7c;}
 	.hot-tags .hot-tag:nth-child(5n+2) {background-color: #5CB85C;}
 	.hot-tags .hot-tag:nth-child(5n+3) {background-color: #D9534F;}
 	.hot-tags .hot-tag:nth-child(5n+4) {background-color: #F0AD4E;}
@@ -203,7 +203,7 @@
                	var category_name_active=$("#category_name").val();
                	var category_id_active=$("#category_id").val();
                	var $tree=$("#category_treeview").treeview({
-               		color:"#428bca", 
+               		color:"#485f7c",
                		nodeIcon: "glyphicon glyphicon-book",
                		data:respData,
                		onNodeSelected: function(event, data) {

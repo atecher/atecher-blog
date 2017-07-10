@@ -56,7 +56,7 @@ a:hover,a:focus{color:#2980b9;text-decoration:none}
 .uk-navbar-brand,.uk-navbar-content,.uk-navbar-toggle{height:60px}
 .uk-dropdown-navbar{background:#ffffff;color:#333}
 .uk-navbar-brand:focus,.uk-navbar-brand:hover{color:#fff}
-.uk-dropdown{padding:0 2px}
+.uk-dropdown{padding:0 2px;box-shadow: 0 1px 1px rgba(0,0,0,.05);}
 .uk-offcanvas-bar{background-color:#555 !important; }
 .uk-nav-offcanvas a,.uk-nav-offcanvas i{color:#cccccc;}
 .uk-nav-offcanvas i{margin:0 2px;}

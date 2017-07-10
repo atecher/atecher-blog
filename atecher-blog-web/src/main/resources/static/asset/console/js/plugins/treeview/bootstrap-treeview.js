@@ -46,7 +46,7 @@
 		borderColor: undefined, // '#dddddd',
 		onhoverColor: '#F5F5F5',
 		selectedColor: '#FFFFFF',
-		selectedBackColor: '#428bca',
+		selectedBackColor: '#76838f',
 		searchResultColor: '#D9534F',
 		searchResultBackColor: undefined, //'#FFFFFF',
 
