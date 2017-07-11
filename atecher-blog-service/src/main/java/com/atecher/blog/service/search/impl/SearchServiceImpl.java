@@ -84,7 +84,7 @@ public class SearchServiceImpl implements ISearchService {
         try {
             ireader = DirectoryReader.open(indexWriter.getDirectory());
             IndexSearcher searcher = new IndexSearcher(ireader);
-            Map<String , Float> boosts = new HashMap<String, Float>();
+            Map<String , Float> boosts = new HashMap<>();
             boosts.put("title", 1.0f);
             boosts.put("content", 1.0f);
             QueryParser parser=new MultiFieldQueryParser(searchFields , analyzer,boosts);

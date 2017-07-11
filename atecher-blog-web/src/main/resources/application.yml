@@ -34,7 +34,7 @@ spring:
        suffix: .ftl
        template-loader-path: classpath:/templates/
     lucene:
-       index-path: /app/lucene/index
+       index-path: /home/app/lucene/index
 mybatis:
   mapperLocations: classpath:mapper/*.xml
   typeAliasesPackage: com.atecher.blog.model
